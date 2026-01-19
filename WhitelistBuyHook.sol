@@ -40,14 +40,14 @@ contract WhitelistBuyHook is BaseHook {
         });
     }
 	
-	function _beforeSwap(address /*sender*/,
+	function _beforeSwap(address sender,
 						 PoolKey calldata /*key*/, // 暂时未使用
 						 SwapParams calldata params,
 						 bytes calldata /*hookData*/) // 暂时未使用
 		internal view override returns (bytes4, BeforeSwapDelta, uint24) {
 		/// console.log("beforeSwap triggered!");
         if (restrictToken && params.zeroForOne) {
-            require(whitelist[msg.sender], "Not whitelisted for buying Token1");
+            require(whitelist[sender], "Not whitelisted for buying Token1");
         }
 		return (BaseHook.beforeSwap.selector, BeforeSwapDelta.wrap(0), 0);
     }
